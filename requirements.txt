@@ -1,3 +1,5 @@
 streamlit
 boto3
 langchain
+opensearch-py
+python-dotenv
