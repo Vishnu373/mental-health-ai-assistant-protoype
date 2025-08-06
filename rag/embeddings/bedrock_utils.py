@@ -15,4 +15,4 @@ def generated_embeddings(chunks, region):
         result = json.loads(response['body'].read())
         embeddings.append(result['embedding'])
 
-    return embeddings    
+    return embeddings

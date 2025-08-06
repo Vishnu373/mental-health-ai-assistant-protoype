@@ -1,27 +1,50 @@
-from s3_utils import read_file
-from bedrock_utils import generated_embeddings
-import json
 import os
+import json
+from s3_utils import create_bucket, upload_file, read_file, save_to_s3
+from chunking_utils import chunk_text
+from bedrock_utils import generated_embeddings
 
-BUCKET_NAME = "mhai-clinical-reports"
-FILE_KEY = "data-folder/knowledge_base.txt"
-OUTPUT_PATH = "rag/embeddings/knowledge_embeddings.json"
+# Configuration
 REGION = "us-east-1"
+INPUT_BUCKET_BASE = "mhai-knowledge-source"
+OUTPUT_BUCKET_BASE = "mhai-embeddings-store"
+LOCAL_INPUT_FILE = "data/knowledge_base.txt"
+INPUT_KEY = "knowledge_base.txt"
+LOCAL_OUTPUT_FOLDER = "output"
+LOCAL_EMBEDDINGS_FILE = "output/knowledge_embeddings.json"
 
+# 0. Create input and output bucket (capture actual names)
+print("Bucket creation...")
+INPUT_BUCKET = create_bucket(INPUT_BUCKET_BASE, REGION)
+OUTPUT_BUCKET = create_bucket(OUTPUT_BUCKET_BASE, REGION)
+
+# 1. Upload local file to input bucket
+print("Uploading the file to S3...")
+upload_file(LOCAL_INPUT_FILE, INPUT_BUCKET, INPUT_KEY)
+print(f"Uploaded {LOCAL_INPUT_FILE} to s3://{INPUT_BUCKET}/{INPUT_KEY}")
+
+# 2. Read knowledge base from S3
 print("Reading knowledge base from S3...")
-chunks = read_file(BUCKET_NAME, FILE_KEY)
+raw_text = read_file(INPUT_BUCKET, INPUT_KEY)
 
-print(f"Total chunks: {len(chunks)}. Generating embeddings...")
+# 3. Chunking
+print("Chunking text...")
+chunks = chunk_text(raw_text, chunk_size=256, chunk_overlap=30)
+print(f"Total chunks created: {len(chunks)}")
+
+# 4. Embeddings
+print("Generating embeddings...")
 embeddings = generated_embeddings(chunks, REGION)
 
-data = [
-    {"chunk": chunk, "embedding": embedding}
-    for chunk, embedding in zip(chunks, embeddings)
-]
+# 5. Save embeddings locally
+os.makedirs(os.path.dirname(LOCAL_EMBEDDINGS_FILE), exist_ok=True)
+embeddings_data = [{"chunk": c, "embedding": e} for c, e in zip(chunks, embeddings)]
+with open(LOCAL_EMBEDDINGS_FILE, "w", encoding="utf-8") as f:
+    json.dump(embeddings_data, f, ensure_ascii=False, indent=2)
+print(f"Embeddings saved locally at: {LOCAL_EMBEDDINGS_FILE}")
 
-os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
-
-with open(OUTPUT_PATH, "w") as f:
-    json.dump(data, f)
-
-print(f"✅ Embeddings generated and saved to {OUTPUT_PATH} (JSON format)")
+# 6. Upload embeddings to output S3 bucket
+print("Uploading embeddings to S3...")
+save_to_s3(json.dumps(embeddings_data, ensure_ascii=False, indent=2), 
+           OUTPUT_BUCKET, "embeddings/knowledge_embeddings.json")
+print(f"Embeddings uploaded to s3://{OUTPUT_BUCKET}/embeddings/knowledge_embeddings.json")

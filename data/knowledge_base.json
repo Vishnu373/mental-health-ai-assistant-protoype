@@ -1,0 +1,137 @@
+{
+  "anxiety_disorders": {
+    "comorbidity": {
+      "depression": "60% comorbidity rate (NIMH)",
+      "substance_use": "Alcohol use disorder in 20-25% of cases",
+      "medical_conditions": ["Irritable bowel syndrome (IBS)", "Cardiovascular issues", "Chronic pain disorders"]
+    },
+    "cultural_considerations": {
+      "symptom_presentation": {
+        "Western": "Emphasis on cognitive symptoms (worry)",
+        "Asian": "Higher somatic complaints (headaches, fatigue)",
+        "Latino": "Nervios concept encompassing physical/emotional distress"
+      },
+      "treatment_barriers": ["Language barriers", "Stigma in collectivist cultures", "Religious interpretations"]
+    },
+    "treatment_timelines": {
+      "SSRIs": "4-6 weeks for initial effect; 3 months for full therapeutic benefit",
+      "CBT": "12-16 weekly sessions for measurable improvement",
+      "maintenance": "6-12 month treatment recommended after symptom remission"
+    }
+  },
+  "major_depressive_disorder": {
+    "comorbidity": {
+      "anxiety": "50-60% of cases (APA)",
+      "chronic_conditions": ["Diabetes (2x risk)", "Cardiovascular disease", "Chronic pain (30-50%)"],
+      "substance_use": "Nicotine dependence in 40% of cases"
+    },
+    "cultural_considerations": {
+      "diagnostic_variations": {
+        "African_American": "Higher rates of undiagnosed depression due to somatic focus",
+        "East_Asian": "Greater emphasis on physical symptoms over mood complaints",
+        "Middle_Eastern": "Spiritual explanations affecting help-seeking"
+      },
+      "culturally_adapted_therapies": [
+        "Family-focused interventions for collectivist cultures",
+        "Spiritually-integrated CBT",
+        "Bilingual psychotherapy"
+      ]
+    },
+    "treatment_timelines": {
+      "acute_phase": "4-12 weeks to achieve symptom remission",
+      "continuation": "4-9 months to prevent relapse",
+      "maintenance": "1-3 years for recurrent/severe cases"
+    }
+  },
+  "bipolar_disorder": {
+    "comorbidity": {
+      "anxiety": "75% lifetime prevalence (NIMH)",
+      "substance_use": "60% develop substance use disorder",
+      "medical": ["Migraines (35%)", "Metabolic syndrome", "Thyroid disorders"]
+    },
+    "cultural_considerations": {
+      "diagnostic_challenges": {
+        "BIPOC": "Higher misdiagnosis rates (often as schizophrenia)",
+        "Religious_contexts": "Mania symptoms interpreted as spiritual experiences"
+      },
+      "treatment_approaches": [
+        "Cultural formulation interviews (DSM-5)",
+        "Family-inclusive psychoeducation",
+        "Traditional healing integration"
+      ]
+    },
+    "treatment_timelines": {
+      "mood_stabilizers": "1-3 weeks for acute mania control",
+      "depressive_episodes": "6-12 weeks for stabilization",
+      "maintenance": "Lifelong treatment with periodic monitoring"
+    }
+  },
+  "schizophrenia": {
+    "comorbidity": {
+      "substance_use": "50% nicotine dependence rate",
+      "medical": ["Metabolic syndrome (40-50%)", "Cardiovascular disease", "Diabetes (2-3x risk)"],
+      "suicide": "5-10% lifetime risk (WHO)"
+    },
+    "cultural_considerations": {
+      "symptom_interpretation": {
+        "Hallucinations": "Cultural acceptance in spiritual traditions",
+        "Delusions": "Theme variations based on cultural context"
+      },
+      "recovery_models": [
+        "Collectivist: Family-centered care",
+        "Individualist: Independent living focus",
+        "Indigenous: Community reintegration ceremonies"
+      ]
+    },
+    "treatment_timelines": {
+      "acute_psychosis": "4-8 weeks for antipsychotic response",
+      "stabilization": "3-6 months for functional improvement",
+      "long_term": "Continuous treatment with 6-month efficacy reviews"
+    }
+  },
+  "comorbidity_patterns": {
+    "anxiety-depression": {
+      "prevalence": "60-70% co-occurrence (NIMH)",
+      "clinical_impact": "Longer recovery time; 3x disability days",
+      "treatment_approach": "SSRIs + CBT with anxiety/depression modules"
+    },
+    "mental-physical": {
+      "diabetes_depression": "Bidirectional risk: 2x higher rates each way",
+      "CVD_anxiety": "Cardiac patients with anxiety have 3x mortality risk"
+    }
+  },
+  "cultural_competence": {
+    "assessment_guidelines": [
+      "Use validated cross-cultural screening tools",
+      "Assess idioms of distress (e.g., susto, nervios)",
+      "Evaluate spiritual/explanatory models",
+      "Consider migration trauma history"
+    ],
+    "treatment_adaptations": {
+      "pharmacotherapy": "Ethnic variations in medication metabolism",
+      "psychotherapy": [
+        "Cultural congruence in therapist-client matching",
+        "Multilingual cognitive assessments",
+        "Traditional healing collaborations"
+      ]
+    }
+  },
+  "treatment_benchmarks": {
+    "medication": {
+      "SSRIs": {
+        "onset": "2-4 weeks for initial effects",
+        "peak": "6-12 weeks for maximum benefit",
+        "duration": "6-24 months maintenance"
+      },
+      "antipsychotics": {
+        "acute": "1-4 weeks for symptom reduction",
+        "maintenance": "Lifelong with quarterly monitoring"
+      }
+    },
+    "psychotherapy": {
+      "CBT": "12-20 sessions for durable change",
+      "DBT": "6-12 months for skill mastery",
+      "trauma_focused": "8-25 sessions for PTSD resolution"
+    }
+  }
+}
