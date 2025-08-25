@@ -4,7 +4,7 @@ from enum import Enum
 from datetime import datetime
 
 class ModelName(str, Enum):
-    ClAUDE_HAIKU = "us.anthropic.claude-3-5-haiku-20241022-v1:0"
+    CLAUDE_HAIKU = "us.anthropic.claude-3-5-haiku-20241022-v1:0"
 
 class QueryInput(BaseModel):
     question: str

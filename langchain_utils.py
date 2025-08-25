@@ -61,3 +61,6 @@ def get_rag_chain():
     rag_chain = create_retrieval_chain(history_aware_retriever, qa_chain)
 
     return rag_chain
+
+
+
