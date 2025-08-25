@@ -6,7 +6,6 @@ from chroma_utils import index_document_to_chroma, delete_doc_from_chroma
 import os
 import uuid
 import logging
-import shutil
 
 # Set up logging
 logging.basicConfig(filename='app.log', level=logging.INFO)
@@ -16,17 +15,26 @@ app = FastAPI()
 
 @app.post("/chat", response_model=QueryResponse)
 def chat(query_input: QueryInput):
-    session_id = query_input.session_id or str(uuid.uuid4())
-    logging.info(f"Session ID: {session_id}, User Qeury: {query_input.question}, Model: {query_input.model.value}")
+    try:
+        session_id = query_input.session_id or str(uuid.uuid4())
+        logging.info(f"Session ID: {session_id}, User Query: {query_input.question}, Model: {query_input.model.value}")
 
-    chat_history = get_chat_history(session_id)
-    rag_chain = get_rag_chain(query_input.model.value)
-    answer = rag_chain.invoke({
-        "input": query_input.question,
-        "chat_history": chat_history
-    })[answer]
+        chat_history = get_chat_history(session_id)
 
-    insert_application_logs(session_id, query_input.question, answer, query_input.model.value)
-    logging.info(f"Session ID: {session_id}, AI response: {answer}")
+        rag_chain = get_rag_chain(query_input.model.value)
 
-    return QueryResponse(answer=answer, session_id=session_id, model=query_input.model.value)
+        result = rag_chain.invoke({
+            "input": query_input.question,
+            "chat_history": chat_history
+        })
+
+        answer = result["answer"]
+
+        insert_application_logs(session_id, query_input.question, answer, query_input.model.value)
+        logging.info(f"Session ID: {session_id}, AI Response: {answer}")
+
+        return QueryResponse(answer=answer, session_id=session_id, model=query_input.model.value)
+
+    except Exception as e:
+        logging.error(f"Error in chat endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail="Something went wrong while processing the chat.")
