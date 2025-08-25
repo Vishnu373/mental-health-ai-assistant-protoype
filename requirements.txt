@@ -1,1 +1,12 @@
 streamlit
+langchain
+langchain-text-splitters
+langchain-community
+langgraph
+langchain[aws]
+langchain-chroma
+pypdf
+langchain-core
+python-multipart
+fastapi
+uvicorn
