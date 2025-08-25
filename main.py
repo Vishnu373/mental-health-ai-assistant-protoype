@@ -1,17 +1,25 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from pydantic_models import QueryInput, QueryResponse, DocumentInfo, DeleteFileRequest
+from fastapi import FastAPI, HTTPException
+from pydantic_models import QueryInput, QueryResponse
 from langchain_utils import get_rag_chain
-from db_utils import insert_application_logs, get_chat_history, get_all_documents, insert_document_record, delete_document_record
-from chroma_utils import index_document_to_chroma, delete_doc_from_chroma
+from db_utils import insert_application_logs, get_chat_history
+from chroma_utils import load_documents, index_documents
 import os
 import uuid
 import logging
+import traceback
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Set up logging
 logging.basicConfig(filename='app.log', level=logging.INFO)
 
 # Initialize FastAPI app
 app = FastAPI()
+
+@app.get("/")
+def root():
+    return {"message": "Mental Health Chatbot API is running"}
 
 @app.post("/chat", response_model=QueryResponse)
 def chat(query_input: QueryInput):
@@ -20,7 +28,6 @@ def chat(query_input: QueryInput):
         logging.info(f"Session ID: {session_id}, User Query: {query_input.question}, Model: {query_input.model.value}")
 
         chat_history = get_chat_history(session_id)
-
         rag_chain = get_rag_chain(query_input.model.value)
 
         result = rag_chain.invoke({
@@ -28,7 +35,12 @@ def chat(query_input: QueryInput):
             "chat_history": chat_history
         })
 
-        answer = result["answer"]
+        # 👇 DEBUG PRINT
+        print("DEBUG RESULT:", result)
+
+        answer = result.get("answer", None)
+        if not answer:
+            raise ValueError(f"Unexpected chain output: {result}")
 
         insert_application_logs(session_id, query_input.question, answer, query_input.model.value)
         logging.info(f"Session ID: {session_id}, AI Response: {answer}")
@@ -36,5 +48,6 @@ def chat(query_input: QueryInput):
         return QueryResponse(answer=answer, session_id=session_id, model=query_input.model.value)
 
     except Exception as e:
-        logging.error(f"Error in chat endpoint: {str(e)}")
+        print("ERROR in /chat endpoint:", e)
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail="Something went wrong while processing the chat.")

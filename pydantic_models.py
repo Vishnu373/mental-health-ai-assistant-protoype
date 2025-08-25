@@ -8,8 +8,8 @@ class ModelName(str, Enum):
 
 class QueryInput(BaseModel):
     question: str
-    session_id: str = Field(default=None)
-    model: ModelName = Field(default=ModelName.GPT4_O_MINI)
+    session_id: str | None = None
+    model: ModelName = ModelName.CLAUDE_HAIKU
 
 class QueryResponse(BaseModel):
     answer: str

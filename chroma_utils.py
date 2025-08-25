@@ -49,3 +49,7 @@ def index_documents(folder_path: str):
             print("No PDFs found to index.")
     except Exception as e:
         print(f"Error during indexing: {e}")
+
+if __name__ == "__main__": 
+    folder_path = "data"
+    index_documents(folder_path)
