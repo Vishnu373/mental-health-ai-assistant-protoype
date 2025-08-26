@@ -48,5 +48,4 @@ def chat_interface():
             else:
                 st.error("Failed to get a response from the API. Please try again.")
 
-# Display chat interface
 chat_interface()
