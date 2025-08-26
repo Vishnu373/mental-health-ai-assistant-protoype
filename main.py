@@ -35,8 +35,8 @@ def chat(query_input: QueryInput):
             "chat_history": chat_history
         })
 
-        # 👇 DEBUG PRINT
-        print("DEBUG RESULT:", result)
+        # # 👇 DEBUG PRINT
+        # print("DEBUG RESULT:", result)
 
         answer = result.get("answer", None)
         if not answer:

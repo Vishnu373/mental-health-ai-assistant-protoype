@@ -37,14 +37,6 @@ def chat_interface():
                 with st.chat_message("assistant"):
                     st.markdown(response["answer"])
 
-                # Optional debug info
-                with st.expander("Details"):
-                    st.subheader("Generated Answer")
-                    st.code(response["answer"])
-                    st.subheader("Model Used")
-                    st.code(response["model"])
-                    st.subheader("Session ID")
-                    st.code(response["session_id"])
             else:
                 st.error("Failed to get a response from the API. Please try again.")
 
