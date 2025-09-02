@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
-from pydantic_models import QueryInput, QueryResponse
-from langchain_utils import get_rag_chain
-from db_utils import insert_application_logs, get_chat_history
-from chroma_utils import load_documents, index_documents
+from backend.pydantic_models import QueryInput, QueryResponse
+from backend.langchain_utils import get_rag_chain
+from backend.db_utils import insert_application_logs, get_chat_history
+from backend.chroma_utils import load_documents, index_documents
 import os
 import uuid
 import logging

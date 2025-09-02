@@ -1,5 +1,5 @@
 import streamlit as st
-from api_utils import get_api_response
+from backend.api_utils import get_api_response
 
 st.set_page_config(page_title="Mental Health AI Assistant", page_icon="💬")
 st.title("💬 Mental Health AI Assistant")

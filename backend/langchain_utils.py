@@ -4,7 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chat_models import init_chat_model
-from chroma_utils import vectorstore
+from backend.chroma_utils import vectorstore
 
 retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
 
