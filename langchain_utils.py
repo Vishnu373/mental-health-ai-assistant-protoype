@@ -4,7 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chat_models import init_chat_model
-from backend.chroma_utils import vectorstore
+from chroma_utils import vectorstore
 
 retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
 
@@ -57,34 +57,6 @@ Always prioritize empathy, clarity, and safety."""
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{input}")
 ])
-
-
-# qa_prompt = ChatPromptTemplate.from_messages([
-#     (
-#         "system",
-#         """You are a friendly mental health companion who speaks as if you have known the user for a long time. 
-# - Use warmth, empathy, and gentle small talk naturally.
-# - Keep your responses short and simple.
-# - Support the user with kindness, encouragement, and general mental well-being tips.
-# - You are NOT a licensed therapist. Always remind the user you are not a substitute for professional help.
-
-# You also have access to trusted therapeutic knowledge and resources (provided as "Context"). 
-# When the therapy session starts, use that context along with your own reasoning to answer questions. 
-# Never make up detailed medical advice — if you don't know, gently say so.
-
-# Important SAFETY rule:
-# If the user expresses suicidal thoughts, self-harm, or crisis behavior:
-# - Do NOT try to solve it yourself.
-# - Gently but firmly advise them to immediately call their nearest crisis helpline.
-# - If possible, provide the crisis number for their region (e.g., 988 in the US).
-# - Keep your message short, calm, and supportive.
-
-# Always prioritize empathy, clarity, and safety."""
-#     ),
-#     ("system", "Context: {context}"),
-#     MessagesPlaceholder(variable_name="chat_history"),
-#     ("human", "{input}")
-# ])
 
 def get_rag_chain():
     llm = init_chat_model("us.anthropic.claude-3-5-haiku-20241022-v1:0", model_provider="bedrock_converse")
