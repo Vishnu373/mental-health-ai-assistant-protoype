@@ -1,53 +1,88 @@
-from fastapi import FastAPI, HTTPException
-from pydantic_models import QueryInput, QueryResponse
-from langchain_utils import get_rag_chain
-from db_utils import insert_application_logs, get_chat_history
-from chroma_utils import load_documents, index_documents
-import os
+from fastapi import FastAPI, HTTPException, Depends
+from sqlalchemy.orm import Session
+from pydantic_models import UserCreate, UserOut, UserLogin
 import uuid
-import logging
-import traceback
-from dotenv import load_dotenv
+from passlib.context import CryptContext
+from database import SessionLocal, User
+from datetime import datetime, timezone
 
-load_dotenv()
-
-# Set up logging
-logging.basicConfig(filename='app.log', level=logging.INFO)
-
-# Initialize FastAPI app
 app = FastAPI()
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# --- DB dependency ---
+def get_db():
+    db = SessionLocal()
+
+    try:
+        yield db
+    
+    finally:
+        db.close()
+
 
 @app.get("/")
 def root():
-    return {"message": "Mental Health Chatbot API is running"}
+    return ("Mental Health AI assistant is running...")
 
-@app.post("/chat", response_model=QueryResponse)
-def chat(query_input: QueryInput):
-    try:
-        session_id = query_input.session_id or str(uuid.uuid4())
-        logging.info(f"Session ID: {session_id}, User Query: {query_input.question}, Model: {query_input.model.value}")
 
-        chat_history = get_chat_history(session_id)
-        rag_chain = get_rag_chain()
+# --- Sign up ---
+@app.post("/users/register", response_model=UserOut)
+def register_user(user: UserCreate, db: Session = Depends(get_db)):
+    existing_user = db.query(User).filter(User.email == user.email).first()
 
-        result = rag_chain.invoke({
-            "input": query_input.question,
-            "chat_history": chat_history
-        })
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email already registered, try signing in...")
 
-        # 👇 DEBUG PRINT
-        print("DEBUG RESULT:", result)
+    hashed = pwd_context.hash(user.password)
 
-        answer = result.get("answer", None)
-        if not answer:
-            raise ValueError(f"Unexpected chain output: {result}")
+    new_user = User( 
+        name = user.name,
+        email = user.email,
+        password = hashed,
+        created_at = datetime.now(timezone.utc)
+    )
 
-        insert_application_logs(session_id, query_input.question, answer, query_input.model.value)
-        logging.info(f"Session ID: {session_id}, AI Response: {answer}")
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
 
-        return QueryResponse(answer=answer, session_id=session_id, model=query_input.model.value)
+    return UserOut(
+        id = new_user.id,
+        name = new_user.name,
+        email = new_user.email,
+        created_at = new_user.created_at
+    )
 
-    except Exception as e:
-        print("ERROR in /chat endpoint:", e)
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail="Something went wrong while processing the chat.")
+
+# --- Login ---
+@app.post("/users/login", response_model=UserOut)
+def login_user(user: UserLogin, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.email == user.email).first()
+
+    if not db_user or not pwd_context.verify(user.password, db_user.password):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+
+    return UserOut(
+        id = db_user.id,
+        name = db_user.name,
+        email = db_user.email,
+        created_at = db_user.created_at
+    )
+
+
+# --- Account delete ---
+@app.delete("/users")
+def delete_user(email: str, password: str, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.email == email).first()
+
+    if not db_user:
+        raise HTTPException(status_code=400, detail="User not found")
+    
+    if not pwd_context.verify(password, db_user.password):
+        raise HTTPException(status_code=401, detail="Incorrect password")
+    
+    db.delete(db_user)
+    db.commit()
+
+    return {"detail": f"{email} deleted successfully"}
