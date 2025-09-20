@@ -1,0 +1,13 @@
+streamlit
+langchain-aws
+boto3
+langchain-text-splitters
+supabase
+requests
+python-dotenv
+sqlalchemy
+psycopg2
+uvicorn
+pydantic
+passlib
+fastapi
