@@ -5,20 +5,13 @@ from services.prompts import info_collection_prompt
 from models.chats_pym import ChatInput, ChatResponse
 from models.user_profile_pym import UserProfile
 from database.user_profile_db import UserProfile as UserProfileDB, SessionLocal
+from modes.mode_switcher import get_user_profile_data
 from rag.config import llm_model
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 
 def start_new_conversation() -> str:
     return generate_session_id()
-
-# get the user profile from database
-def get_user_profile_data(user_id: str):
-    db = SessionLocal()
-    profile = db.query(UserProfileDB).filter(UserProfileDB.user_id == user_id).first()
-    db.close()
-    
-    return profile
 
 # detection logic based on keywords for each fields
 def detect_mentioned_fields(user_message: str) -> List[str]:
