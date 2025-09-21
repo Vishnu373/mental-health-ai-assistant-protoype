@@ -8,9 +8,24 @@ The assistant operates in two distinct modes that seamlessly transition based on
 
 ### Info Collection Mode
 
+```
+User Message → LangChain Conversation → Field Detection → Data Extraction → PostgreSQL Database
+     ↓
+Friendly AI Response ← Conversation History ← Profile Building
+```
+
 The initial phase where the AI acts as a friendly conversational companion to naturally gather personal information from users. This mode uses simple chatbot conversation without any retrieval mechanisms. The AI asks contextual questions about age, mental health goals, stress levels, sleep quality, and other relevant personal details while maintaining an empathetic, non-clinical tone. All collected information is securely stored and used to create a comprehensive user profile.
 
-### Therapy Mode  
+### Therapy Mode
+
+```
+User Message → Profile Retrieval → Query Creation → Vector Search (Supabase)
+     ↓                ↓                              ↓
+Personalized    +    User Data    +    Retrieved Medical Content
+Response        ←    (Database)   ←    (MedlinePlus Knowledge)
+     ↑
+LangChain RAG Pipeline → Claude 3.5 Haiku → Therapeutic Response
+```
 
 Once sufficient personal information is collected, the system automatically transitions to therapy mode. This phase combines the user's profile data with a Retrieval-Augmented Generation (RAG) system that accesses evidence-based mental health knowledge. The AI retrieves relevant therapeutic content based on the user's specific conditions and circumstances, then generates personalized therapeutic responses that consider their unique background, goals, and mental health needs.
 
