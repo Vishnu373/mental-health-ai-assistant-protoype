@@ -15,7 +15,22 @@ class UserProfile(Base):
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
-    age = Column(Integer, nullable=True)
+    # Mandatory fields
+    age = Column(Integer, nullable=False)
+    guardian_status = Column(String, nullable=False)
+    upbringing_description = Column(String, nullable=False)
+    cultural_background = Column(String, nullable=False)
+    mental_health_conditions = Column(String, nullable=False)
+    mental_health_medication = Column(String, nullable=False)
+    mental_health_rating = Column(String, nullable=False)
+    sleep_quality = Column(String, nullable=False)
+    stress_frequency = Column(String, nullable=False)
+    platform_goals = Column(String, nullable=False)
+    therapist_matching_preference = Column(String, nullable=False)
+    concern_contact_consent = Column(Boolean, nullable=False)
+    data_consent = Column(Boolean, nullable=False)
+    
+    # Optional fields
     gender_identity = Column(String, nullable=True)
     relationship_status = Column(String, nullable=True)
     education_level = Column(String, nullable=True)
@@ -29,23 +44,8 @@ class UserProfile(Base):
     role_title = Column(String, nullable=True)
     years_in_workforce = Column(String, nullable=True)
     
-    guardian_status = Column(String, nullable=True)
-    upbringing_description = Column(String, nullable=True)
-    cultural_background = Column(String, nullable=True)
-    
-    mental_health_conditions = Column(String, nullable=True)
-    mental_health_medication = Column(String, nullable=True)
-    mental_health_rating = Column(String, nullable=True)
     physical_activity_level = Column(String, nullable=True)
-    sleep_quality = Column(String, nullable=True)
-    stress_frequency = Column(String, nullable=True)
-    
-    platform_goals = Column(String, nullable=True)
     ai_communication_style = Column(String, nullable=True)
-    therapist_matching_preference = Column(String, nullable=True)
-    
-    concern_contact_consent = Column(Boolean, nullable=True)
-    data_consent = Column(Boolean, nullable=True)
 
 # Create the table
 Base.metadata.create_all(bind=engine)

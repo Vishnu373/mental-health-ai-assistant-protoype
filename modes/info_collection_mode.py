@@ -90,6 +90,7 @@ def update_user_profile(user_id: str, extracted_data: Dict):
     db.commit()
     db.close()
     
+    # For debugging or checking if it is getting stored in db
     print(f"Updated user {user_id} profile with: {extracted_data}")
 
 # The pipeline for info_collection_mode
