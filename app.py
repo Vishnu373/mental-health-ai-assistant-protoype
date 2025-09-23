@@ -53,9 +53,6 @@ def main():
     st.title("Mental Health AI Assistant")
     initialize_state()
     
-    # Display user ID for debugging
-    st.sidebar.write(f"User ID: {st.session_state.user_id}")
-    
     display_message()
 
     if prompt := st.chat_input("Type your message..."):
