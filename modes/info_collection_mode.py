@@ -1,4 +1,5 @@
 import json
+import re
 from typing import List, Dict
 from services.conversational import generate_session_id, chat_with_history
 from services.prompts import info_collection_prompt
@@ -17,17 +18,21 @@ def detect_mentioned_fields(user_message: str) -> List[str]:
     field_names = list(UserProfile.model_fields.keys())
     
     field_keywords = {
-        'age': ['years old', 'age', 'born in', 'i am', 'i\'m'],
-        'employment_status': ['work', 'job', 'employed', 'student', 'unemployed', 'career'],
-        'education_level': ['school', 'college', 'university', 'degree', 'study', 'graduate'],
-        'relationship_status': ['married', 'single', 'relationship', 'divorced', 'dating'],
-        'mental_health_rating': ['feel', 'mental health', 'rate', 'scale', 'out of 10'],
-        'sleep_quality': ['sleep', 'sleeping', 'rest', 'tired', 'insomnia'],
-        'stress_frequency': ['stress', 'stressed', 'overwhelmed', 'anxious', 'pressure'],
-        'guardian_status': ['parents', 'mom', 'dad', 'family', 'grew up', 'childhood'],
-        'upbringing_description': ['upbringing', 'childhood', 'family', 'grew up'],
-        'platform_goals': ['want to', 'hope to', 'help with', 'goal', 'improve', 'manage'],
-        'data_consent': ['yes', 'consent', 'agree', 'okay', 'ok']
+        'age': ['years old', 'age', 'born in', 'i am', "i'm", 'turn', 'turning'],
+        'employment_status': ['work', 'job', 'employed', 'student', 'unemployed', 'career', 'studying', 'working', 'freelance', 'retired', 'part-time', 'full-time', 'engineer', 'teacher', 'doctor', 'nurse'],
+        'education_level': ['school', 'college', 'university', 'degree', 'study', 'graduate', 'undergraduate', 'postgraduate', 'masters', 'bachelor', 'phd', 'doctorate', 'high school'],
+        'relationship_status': ['married', 'single', 'relationship', 'divorced', 'dating', 'partner', 'spouse', 'boyfriend', 'girlfriend', 'separated', 'widowed'],
+        'mental_health_rating': ['feel', 'mental health', 'rate', 'scale', 'out of 10', '/10', 'rating', 'number'],
+        'sleep_quality': ['sleep', 'sleeping', 'rest', 'tired', 'insomnia', 'wake up', 'bedtime', 'hours', 'well', 'poorly', 'good', 'bad', 'excellent', 'poor', 'fair'],
+        'stress_frequency': ['stress', 'stressed', 'overwhelmed', 'anxious', 'pressure', 'daily', 'weekly', 'rarely', 'often', 'sometimes', 'always', 'never'],
+        'guardian_status': ['parents', 'mom', 'dad', 'family', 'grew up', 'childhood', 'mother', 'father', 'divorced', 'married', 'single parent', 'raised by'],
+        'upbringing_description': ['upbringing', 'childhood', 'family', 'grew up', 'stable', 'strict', 'supportive', 'chaotic', 'religious', 'distant', 'loving', 'harsh'],
+        'platform_goals': ['want to', 'hope to', 'help with', 'goal', 'improve', 'manage', 'anxiety', 'depression', 'sleep', 'relationships', 'focus', 'trauma', 'lonely'],
+        'data_consent': ['yes', 'consent', 'agree', 'okay', 'ok', 'sure', 'fine', 'no problem'],
+        'gender_identity': ['male', 'female', 'man', 'woman', 'non-binary', 'transgender', 'genderqueer', 'prefer not'],
+        'cultural_background': ['culture', 'ethnicity', 'background', 'heritage', 'race', 'nationality', 'from', 'born in'],
+        'physical_activity_level': ['exercise', 'active', 'sedentary', 'gym', 'workout', 'sports', 'walking', 'running'],
+        'ai_communication_style': ['formal', 'friendly', 'empathetic', 'direct', 'conversational', 'casual', 'professional']
     }
     
     mentioned_fields = []

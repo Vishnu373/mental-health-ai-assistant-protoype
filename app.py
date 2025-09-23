@@ -1,11 +1,14 @@
 import streamlit as st
 import requests
+import uuid
 
 def initialize_state():
     if "messages" not in st.session_state:
         st.session_state.messages = []
     if "session_id" not in st.session_state:
         st.session_state.session_id = None
+    if "user_id" not in st.session_state:
+        st.session_state.user_id = f"user_{str(uuid.uuid4())[:8]}"
 
 def display_message():
     for message in st.session_state.messages:
@@ -15,7 +18,7 @@ def display_message():
 def invoke_chat(prompt):
     data = {
         "query": prompt,
-        "user_id": "test_user",
+        "user_id": st.session_state.user_id,
         "session_id": st.session_state.session_id,
         "model_name": "claude-haiku-3.5"
     }
@@ -47,8 +50,12 @@ def handle_user_input(prompt):
             st.error("Error calling API")
 
 def main():
-    st.title("Mental Health AI Assistant")    
+    st.title("Mental Health AI Assistant")
     initialize_state()
+    
+    # Display user ID for debugging
+    st.sidebar.write(f"User ID: {st.session_state.user_id}")
+    
     display_message()
 
     if prompt := st.chat_input("Type your message..."):
