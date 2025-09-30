@@ -1,5 +1,5 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from rag.config import s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
+from config import s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
 
 # 0. Get file from S3
 def get_file():

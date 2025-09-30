@@ -3,7 +3,7 @@ from typing import List
 from datetime import datetime, timezone
 from database.chats_db import Chat, SessionLocal
 from models.chats_pym import ChatInput, ChatResponse
-from rag.config import llm_model
+from config import llm_model
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
     
 def generate_session_id() -> str:
