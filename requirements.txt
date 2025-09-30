@@ -1,4 +1,3 @@
-streamlit
 langchain-aws
 boto3
 langchain-text-splitters
@@ -13,3 +12,5 @@ passlib
 fastapi
 beautifulsoup4
 langchain
+streamlit
+requests
