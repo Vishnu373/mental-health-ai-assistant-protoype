@@ -5,11 +5,9 @@ from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chat_models import init_chat_model
 from langchain_core.output_parsers import StrOutputParser
-from rag.rag_config import embedding_model
 from services.prompts import therapy_prompt
-from config import llm_model
+from config import llm_model, s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
 from langchain_core.messages import SystemMessage, HumanMessage
-from rag.rag_config import s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
 
 load_dotenv()
 
