@@ -6,7 +6,6 @@ supabase
 requests
 python-dotenv
 sqlalchemy
-psycopg2-binary
 psycopg2
 uvicorn
 pydantic
