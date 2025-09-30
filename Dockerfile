@@ -1,19 +1,13 @@
 FROM python:3.11-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy requirements first (for better Docker layer caching)
+# Copy and install backend requirements
 COPY requirements-backend.txt .
-
-# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements-backend.txt
 
-# Copy the rest of the application
+# Copy application code
 COPY . .
 
-# Expose port
-EXPOSE $PORT
-
-# Start command
+# Start FastAPI app
 CMD uvicorn main:app --host 0.0.0.0 --port $PORT
