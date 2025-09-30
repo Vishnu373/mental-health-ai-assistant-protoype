@@ -47,5 +47,7 @@ class UserProfile(Base):
     physical_activity_level = Column(String, nullable=True)
     ai_communication_style = Column(String, nullable=True)
 
-# Create the table
-Base.metadata.create_all(bind=engine)
+# Create the table only if running this file directly
+if __name__ == "__main__":
+    Base.metadata.create_all(bind=engine)
+    print("User profile table created successfully!")

@@ -16,5 +16,7 @@ class Chat(Base):
     ai_response = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
-# Create the table
-Base.metadata.create_all(bind=engine)
+# Create the table only if running this file directly
+if __name__ == "__main__":
+    Base.metadata.create_all(bind=engine)
+    print("Chats table created successfully!")
