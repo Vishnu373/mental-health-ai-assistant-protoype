@@ -23,7 +23,9 @@ def invoke_chat(prompt):
         "model_name": "claude-haiku-3.5"
     }
     
-    response = requests.post("http://localhost:8000/chat", json=data)
+    # Use Railway backend API
+    API_URL = "https://mhelp.up.railway.app/chat"
+    response = requests.post(API_URL, json=data)
     
     if response.status_code == 200:
         return response.json()
