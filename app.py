@@ -23,8 +23,8 @@ def invoke_chat(prompt):
         "model_name": "claude-haiku-3.5"
     }
     
-    # Use Railway backend API
-    API_URL = "https://mhelp.up.railway.app/chat"
+    # Use Render backend API
+    API_URL = "https://mhelp-ai-backend.onrender.com/chat"
     response = requests.post(API_URL, json=data)
     
     if response.status_code == 200:
