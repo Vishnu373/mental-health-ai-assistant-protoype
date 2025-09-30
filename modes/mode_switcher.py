@@ -26,7 +26,8 @@ def check_mandatory_fields_complete(profile: UserProfileDB) -> bool:
     
     for field in mandatory_fields:
         field_value = getattr(profile, field, None)
-        if field_value is None or field_value == "" or field_value == "Not specified":
+        if (field_value is None or field_value == "" or field_value == "Not specified" or 
+            field_value == 0 or field_value is False):
             return False
     
     return True

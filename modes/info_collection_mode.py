@@ -78,7 +78,23 @@ def update_user_profile(user_id: str, extracted_data: Dict):
     profile = db.query(UserProfileDB).filter(UserProfileDB.user_id == user_id).first()
     
     if not profile:
-        profile = UserProfileDB(user_id=user_id)
+        # Create new profile with 'Not specified' defaults (mode_switcher will recognize these as incomplete)
+        profile = UserProfileDB(
+            user_id=user_id,
+            age=0,  # Special case: 0 will be treated as incomplete
+            guardian_status="Not specified",
+            upbringing_description="Not specified",
+            cultural_background="Not specified",
+            mental_health_conditions="Not specified",
+            mental_health_medication="Not specified",
+            mental_health_rating="Not specified",
+            sleep_quality="Not specified",
+            stress_frequency="Not specified",
+            platform_goals="Not specified",
+            therapist_matching_preference="Not specified",
+            concern_contact_consent=False,  # False will be treated as incomplete
+            data_consent=False
+        )
         db.add(profile)
     
     # Define fields that need boolean conversion
