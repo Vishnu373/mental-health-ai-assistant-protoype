@@ -3,7 +3,6 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
 from sqlalchemy.pool import NullPool
-import os
 from langchain_aws import BedrockEmbeddings, ChatBedrock
 from supabase import create_client, Client
 import boto3
@@ -21,7 +20,7 @@ engine = create_engine(
     POOLER_DATABASE_URL,
     poolclass=NullPool,
     connect_args={
-        "sslmode": "require",  # This is a requirement for Supabase connections
+        "sslmode": "require",
         "connect_timeout": 10
     }
 )
