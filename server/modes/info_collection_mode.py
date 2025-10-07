@@ -6,7 +6,7 @@ from services.prompts import info_collection_prompt
 from models.chats_pym import ChatInput, ChatResponse
 from models.user_profile_pym import UserProfile
 from database.user_profile_db import UserProfile as UserProfileDB, SessionLocal
-from config import llm_model
+from server.config import llm_model
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 

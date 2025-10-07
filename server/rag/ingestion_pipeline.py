@@ -1,5 +1,5 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from config import s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
+from server.config import s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
 
 # 0. Get file from S3
 def get_file():
