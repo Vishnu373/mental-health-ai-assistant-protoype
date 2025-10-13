@@ -7,7 +7,7 @@ if (!clerkPubKey) {
   document.getElementById('app').innerHTML = `
     <div style="color: red; text-align: center; padding: 2rem;">
       <h2>Configuration Error</h2>
-      <p>Clerk Publishable Key is missing. Please check your environment configuration.</p>
+      <p>Clerk Publishable Key is missing.</p>
     </div>
   `
   throw new Error('Missing Clerk Publishable Key')
@@ -18,23 +18,25 @@ try {
   await clerk.load()
 
   if (clerk.user) {
-    // User is signed in
+    // User is signed in - show welcome + user button
     document.getElementById('app').innerHTML = `
-      <div style="text-align: center; padding: 2rem;">
-        <h2>Welcome!</h2>
+      <div style="text-align: center; padding: 2rem; color: white;">
+        <h1>Mental Health AI Assistant (MhelpAI)</h1>
+        <h2>Welcome, ${clerk.user.firstName || 'User'}!</h2>
         <p>You are successfully signed in.</p>
-        <div id="user-button"></div>
+        <div id="user-button" style="margin-top: 2rem;"></div>
       </div>
     `
 
     const userButtonDiv = document.getElementById('user-button')
     clerk.mountUserButton(userButtonDiv)
   } else {
-    // User is not signed in
+    // User is not signed in - show sign in page
     document.getElementById('app').innerHTML = `
-      <div style="text-align: center; padding: 2rem;">
-        <h2>Mental Health AI Assistant</h2>
-        <p>Please sign in to continue</p>
+      <div style="text-align: center; padding: 2rem; color: white;">
+        <h1>Mental Health AI Assistant (MhelpAI)</h1>
+        <p style="margin: 1rem 0;">Your AI companion for mental health support and guidance.</p>
+        <p style="font-style: italic; color: #888; margin-bottom: 2rem;">This is a prototype only.</p>
         <div id="sign-in"></div>
       </div>
     `
@@ -48,20 +50,22 @@ try {
     if (user) {
       // User signed in
       document.getElementById('app').innerHTML = `
-        <div style="text-align: center; padding: 2rem;">
-          <h2>Welcome!</h2>
+        <div style="text-align: center; padding: 2rem; color: white;">
+          <h1>Mental Health AI Assistant (MhelpAI)</h1>
+          <h2>Welcome, ${user.firstName || 'User'}!</h2>
           <p>You are successfully signed in.</p>
-          <div id="user-button"></div>
+          <div id="user-button" style="margin-top: 2rem;"></div>
         </div>
       `
       const userButtonDiv = document.getElementById('user-button')
       clerk.mountUserButton(userButtonDiv)
     } else {
-      // User signed out
+      // User signed out - show sign in page
       document.getElementById('app').innerHTML = `
-        <div style="text-align: center; padding: 2rem;">
-          <h2>Mental Health AI Assistant</h2>
-          <p>Please sign in to continue</p>
+        <div style="text-align: center; padding: 2rem; color: white;">
+          <h1>Mental Health AI Assistant (MhelpAI)</h1>
+          <p style="margin: 1rem 0;">Your AI companion for mental health support and guidance.</p>
+          <p style="font-style: italic; color: #888; margin-bottom: 2rem;">This is a prototype only.</p>
           <div id="sign-in"></div>
         </div>
       `
@@ -75,7 +79,7 @@ try {
   document.getElementById('app').innerHTML = `
     <div style="color: red; text-align: center; padding: 2rem;">
       <h2>Authentication Error</h2>
-      <p>Failed to initialize authentication system. Please refresh the page.</p>
+      <p>Failed to load authentication. Please refresh the page.</p>
       <p><small>${error.message}</small></p>
     </div>
   `
