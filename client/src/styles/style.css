@@ -1,0 +1,4 @@
+/* Main CSS - Imports all component styles */
+@import './components/base.css';
+@import './components/auth.css';
+@import './components/chat.css';
