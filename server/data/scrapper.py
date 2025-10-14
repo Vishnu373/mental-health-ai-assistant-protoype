@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from requests.exceptions import RequestException
-from data.sources import medline_urls
+from .data.sources import medline_urls
 
 def get_page_content(url):
     try:

@@ -1,5 +1,5 @@
 from typing import Literal
-from database.user_profile_db import UserProfile as UserProfileDB, SessionLocal
+from .database.user_profile_db import UserProfile as UserProfileDB, SessionLocal
 
 def get_user_profile_data(user_id: str):
     db = SessionLocal()

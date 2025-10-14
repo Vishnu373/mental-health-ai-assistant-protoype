@@ -1,12 +1,12 @@
 import json
 import re
 from typing import List, Dict
-from services.conversational import generate_session_id, chat_with_history
-from services.prompts import info_collection_prompt
-from models.chats_pym import ChatInput, ChatResponse
-from models.user_profile_pym import UserProfile
-from database.user_profile_db import UserProfile as UserProfileDB, SessionLocal
-from server.config import llm_model
+from .services.conversational import generate_session_id, chat_with_history
+from .services.prompts import info_collection_prompt
+from .models.chats_pym import ChatInput, ChatResponse
+from .models.user_profile_pym import UserProfile
+from .database.user_profile_db import UserProfile as UserProfileDB, SessionLocal
+from .server.config import llm_model
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 
