@@ -1,9 +1,14 @@
-# files
+# Environment Variables
 .env
-README.md
+.env.local
 
-# folders
-/*env
+# Dependencies
+node_modules/
+*env/
+
+# Build Outputs
+dist/
+build/
 
 # Python
 __pycache__/
@@ -11,9 +16,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -26,6 +29,9 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Logs
+*.log
 
 # IDE
 .vscode/

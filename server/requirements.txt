@@ -12,5 +12,4 @@ passlib
 fastapi
 beautifulsoup4
 langchain
-streamlit
 requests
