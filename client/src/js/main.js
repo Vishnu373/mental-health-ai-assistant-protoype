@@ -8,7 +8,7 @@ let currentUser = null
 let sessionId = null
 
 // Get Clerk publishable key
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const clerkPubKey = import.meta.env.VITE_CLERK_KEY
 
 async function initializeApp() {
     try {
