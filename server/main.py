@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from models.chats_pym import ChatResponse, ChatInput
 from services.chat_service import process_chat, get_chat_history
+from datetime import datetime
 
 app = FastAPI(title="Mental Health AI Assistant API", version="1.0.0")
 
@@ -17,6 +18,14 @@ app.add_middleware(
 @app.get("/")
 def root():
     return {"message": "Mental Health AI Assistant API is running"}
+
+@app.get("/ping")
+def ping():
+    return {
+        "status": "alive", 
+        "timestamp": datetime.now().isoformat(),
+        "message": "Backend is running"
+    }
 
 @app.post("/chat", response_model=ChatResponse)
 def chat_endpoint(chat_input: ChatInput):
