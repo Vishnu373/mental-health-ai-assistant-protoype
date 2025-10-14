@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from server.config import s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
+from config import s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
 
 # 0. Get file from S3
 def get_file():
