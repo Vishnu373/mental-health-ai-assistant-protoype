@@ -1,4 +1,4 @@
-from .models.chats_pym import ChatInput, ChatResponse
+from .models.chats_pym import ChatResponse
 from .rag.rag_pipeline import retrieve, augment_and_generate
 from .services.conversational import get_conversation_history, generate_session_id, save_conversation_history
 from .modes.mode_switcher import get_user_profile_data
