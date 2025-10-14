@@ -1,6 +1,7 @@
 import { Clerk } from '@clerk/clerk-js'
 import { initializeChat, showChatInterface } from './chat.js'
 import { showAuthInterface } from './auth.js'
+import { loadTemplate, renderTemplate } from './templateLoader.js'
 
 // Application state
 let clerk = null
@@ -24,8 +25,15 @@ async function initializeApp() {
 
         // Set up auth state listener
         clerk.addListener(({ user }) => {
+            const wasAuthenticated = currentUser !== null
+            const isAuthenticated = user !== null
+            
             currentUser = user
-            renderApp()
+            
+            // Only re-render if authentication state actually changed
+            if (wasAuthenticated !== isAuthenticated) {
+                renderApp()
+            }
         })
 
         // Initial render
@@ -39,17 +47,17 @@ async function initializeApp() {
     }
 }
 
-function renderApp() {
+async function renderApp() {
     if (currentUser) {
         // User is authenticated - show chat interface
         console.log('User authenticated:', currentUser.id)
         sessionId = generateSessionId()
-        showChatInterface(currentUser)
+        await showChatInterface(currentUser)
         initializeChat()
     } else {
         // User not authenticated - show auth interface
         console.log('User not authenticated, showing auth interface')
-        showAuthInterface(clerk)
+        await showAuthInterface(clerk)
     }
 }
 
@@ -60,14 +68,22 @@ function generateSessionId() {
     return `${userId}-${timestamp}-${random}`
 }
 
-function showError(title, message) {
-    document.getElementById('app').innerHTML = `
-        <div class="error-container">
-            <h2>${title}</h2>
-            <p>${message}</p>
-            <button onclick="location.reload()">Reload Page</button>
-        </div>
-    `
+async function showError(title, message) {
+    try {
+        const template = await loadTemplate('error')
+        const renderedHTML = renderTemplate(template, { title, message })
+        document.getElementById('app').innerHTML = renderedHTML
+    } catch (error) {
+        // Fallback if template loading fails
+        console.error('Error loading error template:', error)
+        document.getElementById('app').innerHTML = `
+            <div style="color: red; text-align: center; padding: 2rem;">
+                <h2>${title}</h2>
+                <p>${message}</p>
+                <button onclick="location.reload()">Reload Page</button>
+            </div>
+        `
+    }
 }
 
 window.handleSendMessage = async function(message) {

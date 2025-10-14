@@ -1,23 +1,25 @@
-// Show authentication interface
-export function showAuthInterface(clerk) {
-    const app = document.getElementById('app')
-    
-    app.innerHTML = `
-        <div class="auth-container">
-            <div class="auth-content">
-                <h1 class="auth-title">Mental Health AI Assistant</h1>
-                <h2 class="auth-subtitle">MhelpAI</h2>
-                <p class="auth-description">Your AI companion for mental health support and guidance.</p>
-                <p class="auth-disclaimer">This is a prototype only.</p>
-                <div id="clerk-auth" class="clerk-auth-container"></div>
-            </div>
-        </div>
-    `
+import { loadTemplate, renderTemplate } from './templateLoader.js';
 
-    // Mount Clerk authentication component
-    const authContainer = document.getElementById('clerk-auth')
-    if (clerk && authContainer) {
-        clerk.mountSignIn(authContainer)
+// Show authentication interface
+export async function showAuthInterface(clerk) {
+    try {
+        const app = document.getElementById('app')
+        
+        // Load and render template
+        const template = await loadTemplate('auth')
+        const renderedHTML = renderTemplate(template)
+        
+        app.innerHTML = renderedHTML
+
+        // Mount Clerk authentication component
+        const authContainer = document.getElementById('clerk-auth')
+        if (clerk && authContainer) {
+            clerk.mountSignIn(authContainer)
+        }
+    } catch (error) {
+        console.error('Error loading auth template:', error)
+        // Fallback to basic error message
+        document.getElementById('app').innerHTML = '<div>Error loading authentication page</div>'
     }
 }
 
