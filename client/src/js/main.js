@@ -1,7 +1,6 @@
 import { Clerk } from '@clerk/clerk-js'
 import { initializeChat, showChatInterface } from './chat.js'
 import { showAuthInterface } from './auth.js'
-import { loadTemplate, renderTemplate } from './templateLoader.js'
 
 // Application state
 let clerk = null
@@ -47,17 +46,17 @@ async function initializeApp() {
     }
 }
 
-async function renderApp() {
+function renderApp() {
     if (currentUser) {
         // User is authenticated - show chat interface
         console.log('User authenticated:', currentUser.id)
         sessionId = generateSessionId()
-        await showChatInterface(currentUser)
+        showChatInterface(currentUser)
         initializeChat()
     } else {
         // User not authenticated - show auth interface
         console.log('User not authenticated, showing auth interface')
-        await showAuthInterface(clerk)
+        showAuthInterface(clerk)
     }
 }
 
@@ -68,22 +67,14 @@ function generateSessionId() {
     return `${userId}-${timestamp}-${random}`
 }
 
-async function showError(title, message) {
-    try {
-        const template = await loadTemplate('error')
-        const renderedHTML = renderTemplate(template, { title, message })
-        document.getElementById('app').innerHTML = renderedHTML
-    } catch (error) {
-        // Fallback if template loading fails
-        console.error('Error loading error template:', error)
-        document.getElementById('app').innerHTML = `
-            <div style="color: red; text-align: center; padding: 2rem;">
-                <h2>${title}</h2>
-                <p>${message}</p>
-                <button onclick="location.reload()">Reload Page</button>
-            </div>
-        `
-    }
+function showError(title, message) {
+    document.getElementById('app').innerHTML = `
+        <div class="error-container">
+            <h2>${title}</h2>
+            <p>${message}</p>
+            <button onclick="location.reload()">Reload Page</button>
+        </div>
+    `
 }
 
 window.handleSendMessage = async function(message) {

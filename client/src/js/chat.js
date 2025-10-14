@@ -1,21 +1,45 @@
-import { loadTemplate, renderTemplate } from './templateLoader.js';
-
 // Show chat interface
-export async function showChatInterface(user) {
-    try {
-        const app = document.getElementById('app')
-        const userName = getUserDisplayName(user)
-        
-        // Load and render template with user data
-        const template = await loadTemplate('chat')
-        const renderedHTML = renderTemplate(template, { userName })
-        
-        app.innerHTML = renderedHTML
-    } catch (error) {
-        console.error('Error loading chat template:', error)
-        // Fallback to basic error message
-        document.getElementById('app').innerHTML = '<div>Error loading chat interface</div>'
-    }
+export function showChatInterface(user) {
+    const app = document.getElementById('app')
+    const userName = getUserDisplayName(user)
+    
+    app.innerHTML = `
+        <div class="chat-container">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <h1 class="chat-title">MhelpAI - Mental Health Assistant</h1>
+                <div class="user-menu">
+                    <div class="user-info">${userName}</div>
+                    <button class="sign-out-btn" onclick="handleSignOut()">Sign Out</button>
+                </div>
+            </div>
+            
+            <!-- Messages Area -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    <h3>Welcome to MhelpAI! 👋</h3>
+                    <p>I'm here to provide mental health support and guidance. Feel free to share what's on your mind, and I'll do my best to help.</p>
+                    <p class="welcome-disclaimer">
+                        <strong>Note:</strong> I'm an AI assistant and not a replacement for professional mental health care. 
+                        If you're experiencing a crisis, please contact emergency services or a mental health hotline immediately.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Chat Input Area -->
+            <div class="chat-input-area">
+                <div class="chat-input-container">
+                    <textarea 
+                        class="chat-input" 
+                        id="chatInput" 
+                        placeholder="Type your message here..."
+                        rows="1"
+                    ></textarea>
+                    <button class="send-button" id="sendButton" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    `
 }
 
 // Initialize chat functionality
