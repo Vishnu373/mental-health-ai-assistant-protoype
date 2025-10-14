@@ -1,8 +1,12 @@
-from .models.chats_pym import ChatResponse, ChatInput
-from .modes.info_collection_mode import info_collection_chat
-from .modes.therapy_mode import therapy_chat
-from .modes.mode_switcher import determine_user_mode
-from .services.conversational import get_conversation_history
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from models.chats_pym import ChatResponse, ChatInput
+from modes.info_collection_mode import info_collection_chat
+from modes.therapy_mode import therapy_chat
+from modes.mode_switcher import determine_user_mode
+from services.conversational import get_conversation_history
 
 # Determine the mode by using the logic from mode_switcher.py
 def process_chat(chat_input: ChatInput) -> ChatResponse:   

@@ -1,8 +1,12 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from sqlalchemy import create_engine, Column, String, DateTime, Integer, Boolean
 from sqlalchemy.orm import sessionmaker, declarative_base
 from datetime import datetime, timezone
 from urllib.parse import quote_plus
-from .server.config import engine
+from server.config import engine
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

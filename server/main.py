@@ -1,7 +1,11 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from ..models.chats_pym import ChatResponse, ChatInput
-from ..services.chat_service import process_chat, get_chat_history
+from models.chats_pym import ChatResponse, ChatInput
+from services.chat_service import process_chat, get_chat_history
 from datetime import datetime
 
 app = FastAPI(title="Mental Health AI Assistant API", version="1.0.0")

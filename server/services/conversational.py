@@ -1,9 +1,13 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import uuid
 from typing import List
 from datetime import datetime, timezone
-from .database.chats_db import Chat, SessionLocal
-from .models.chats_pym import ChatInput, ChatResponse
-from .server.config import llm_model
+from database.chats_db import Chat, SessionLocal
+from models.chats_pym import ChatInput, ChatResponse
+from server.config import llm_model
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
     
 def generate_session_id() -> str:

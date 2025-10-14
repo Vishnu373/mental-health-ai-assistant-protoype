@@ -1,7 +1,11 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import os
 from dotenv import load_dotenv
-from .services.prompts import therapy_prompt
-from .server.config import llm_model, s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
+from services.prompts import therapy_prompt
+from server.config import llm_model, s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
 from langchain_core.messages import SystemMessage, HumanMessage
 
 load_dotenv()
