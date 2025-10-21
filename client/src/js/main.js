@@ -46,11 +46,29 @@ async function initializeApp() {
     }
 }
 
-function renderApp() {
+async function renderApp() {
     if (currentUser) {
-        // User is authenticated - show chat interface
+        // User is authenticated - get or create session
         console.log('User authenticated:', currentUser.id)
-        sessionId = generateSessionId()
+        
+        try {
+            // Get existing session or create new one for this user
+            // const sessionResponse = await fetch(`http://localhost:8000/session/${currentUser.id}`) // for local testing
+            const sessionResponse = await fetch(`https://mhelp-ai-backend.onrender.com/session/${currentUser.id}`)
+            if (sessionResponse.ok) {
+                const sessionData = await sessionResponse.json()
+                sessionId = sessionData.session_id
+                console.log('Session retrieved:', sessionData.message)
+            } else {
+                // Fallback to local generation if API fails
+                sessionId = generateSessionId()
+                console.log('Using fallback session generation')
+            }
+        } catch (error) {
+            console.error('Error retrieving session:', error)
+            sessionId = generateSessionId()
+        }
+        
         showChatInterface(currentUser)
         initializeChat()
     } else {

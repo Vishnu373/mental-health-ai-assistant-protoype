@@ -6,6 +6,8 @@ import json
 import re
 from typing import List, Dict
 from services.conversational import generate_session_id, chat_with_history
+from services.session_service import get_session_context
+from services.prompt_builder import remaining_information
 from services.prompts import info_collection_prompt
 from models.chats_pym import ChatInput, ChatResponse
 from models.user_profile_pym import UserProfile
@@ -127,7 +129,13 @@ def info_collection_chat(user_id: str, user_message: str, session_id: str = None
         model_name="claude-haiku-3.5"
     )
     
-    response = chat_with_history(user_id, chat_input, info_collection_prompt)
+    # Get smart context (profile status + recent history)
+    context = get_session_context(user_id, session_id)
+    
+    # Create enhanced prompt with context
+    remaining_info_prompt = remaining_information(context)
+    
+    response = chat_with_history(user_id, chat_input, remaining_info_prompt)
     
     detected_fields = detect_mentioned_fields(user_message)
     
