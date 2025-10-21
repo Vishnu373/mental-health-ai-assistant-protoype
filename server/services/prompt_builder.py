@@ -13,7 +13,7 @@ def remaining_information(context: Dict) -> str:
     
     if recent_history:
         # RETURNING USER
-        context_info = "**RETURNING USER: You already have data consent. Skip consent and continue your previous conversation naturally.**\n\n"
+        context_info = "**RETURNING USER: Continue your previous conversation naturally.**\n\n"
         
         if profile_status["profile_exists"]:
             completed = ", ".join(profile_status["completed_fields"]) if profile_status["completed_fields"] else "None"
