@@ -1,3 +1,5 @@
+import { marked } from 'marked'
+
 // Show chat interface
 export function showChatInterface(user) {
     const app = document.getElementById('app')
@@ -138,7 +140,7 @@ function addMessageToChat(sender, content) {
             <span class="message-sender">${sender === 'user' ? 'You' : 'MhelpAI'}</span>
             <span class="message-time">${timestamp}</span>
         </div>
-        <div class="message-content">${content}</div>
+        <div class="message-content">${sender === 'assistant' ? marked.parse(content) : content}</div>
     `
     
     chatMessages.appendChild(messageDiv)
