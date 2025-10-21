@@ -53,7 +53,8 @@ async function renderApp() {
         
         try {
             // Get existing session or create new one for this user
-            const sessionResponse = await fetch(`https://mhelp-ai-backend.onrender.com/session/${currentUser.id}`)
+            const sessionResponse = await fetch(`http://localhost:8000/session/${currentUser.id}`) // temporary
+            // const sessionResponse = await fetch(`https://mhelp-ai-backend.onrender.com/session/${currentUser.id}`)
             if (sessionResponse.ok) {
                 const sessionData = await sessionResponse.json()
                 sessionId = sessionData.session_id
