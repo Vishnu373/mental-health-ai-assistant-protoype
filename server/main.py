@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from models.chats_pym import ChatResponse, ChatInput
 from services.chat_service import process_chat, get_chat_history
+from services.session_service import get_or_create_user_session
 from datetime import datetime
 
 app = FastAPI(title="Mental Health AI Assistant API", version="1.0.0")
@@ -38,3 +39,7 @@ def chat_endpoint(chat_input: ChatInput):
 @app.get("/chat/history/{user_id}/{session_id}")
 def get_history(user_id: str, session_id: str):
     return get_chat_history(user_id, session_id)
+
+@app.get("/session/{user_id}")
+def get_user_session(user_id: str):
+    return get_or_create_user_session(user_id)
