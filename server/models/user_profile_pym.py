@@ -2,7 +2,8 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 class UserProfile(BaseModel):
-    age: int = Field(
+    age: Optional[int] = Field (
+        default=None,
         description="User's age in years"
     )
     gender_identity: Optional[str] = Field(
@@ -45,47 +46,59 @@ class UserProfile(BaseModel):
         default=None,
         description="Years of work experience if employed"
     )
-    guardian_status: str = Field(
+    guardian_status: Optional[str] = Field(
+        default=None,
         description="Parent/Guardian status during upbringing: Married, Divorced, Single parent, Raised by others, Prefer not to say"
     )
-    upbringing_description: str = Field(
+    upbringing_description: Optional[str] = Field(
+        default=None,
         description="Description of upbringing: Stable, Strict, Emotionally distant, Supportive, Religious, Chaotic, Other"
     )
-    cultural_background: str = Field(
+    cultural_background: Optional[str] = Field(
+        default=None,
         description="User's cultural background or ethnicity"
     )
-    mental_health_conditions: str = Field(
+    mental_health_conditions: Optional[str] = Field(
+        default=None,
         description="Any diagnosed mental health conditions (optional)"
     )
-    mental_health_medication: str = Field(
+    mental_health_medication: Optional[str] = Field(
+        default=None,
         description="Any medication taken for mental health (optional)"
     )
-    mental_health_rating: str = Field(
+    mental_health_rating: Optional[str] = Field(
+        default=None,
         description="Self-rated mental health on 1-10 scale"
     )
     physical_activity_level: Optional[str] = Field(
         default=None,
         description="Physical activity level: Sedentary, Lightly active, Moderately active, Very active"
     )
-    sleep_quality: str = Field(
+    sleep_quality: Optional[str] = Field(
+        default=None,
         description="Sleep quality: Poor, Fair, Good, Excellent"
     )
-    stress_frequency: str = Field(
+    stress_frequency: Optional[str] = Field(
+        default=None,
         description="How often feeling overwhelmed or stressed: Daily, Weekly, Rarely"
     )
-    platform_goals: str = Field(
+    platform_goals: Optional[str] = Field(
+        default=None,
         description="What user hopes to get from platform: Manage anxiety, Improve focus, Deal with relationships, Heal from trauma, Sleep better, Explore thoughts safely, Feel less lonely, Other"
     )
     ai_communication_style: Optional[str] = Field(
         default=None,
         description="Preferred AI communication style: Formal, Friendly, Empathetic, Direct, Conversational"
     )
-    therapist_matching_preference: str = Field(
+    therapist_matching_preference: Optional[str] = Field(
+        default=None,
         description="Preference for human therapist matching: Yes, No, Not sure yet"
     )
-    concern_contact_consent: bool = Field(
+    concern_contact_consent: Optional[bool] = Field(
+        default=None,
         description="Consent to be contacted if concerning patterns detected: Yes, No"
     )
-    data_consent: bool = Field(
+    data_consent: Optional[bool] = Field(
+        default=None,
         description="Consent to data collection, privacy practices, and terms of service: Yes, No"
     )
