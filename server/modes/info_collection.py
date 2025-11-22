@@ -44,8 +44,35 @@ class InfoCollectionMode:
                 "properties": properties
                 }
         }
+
+    # 2. Store the extracted details into the db    
+    def store_information(self, extracted_data):
+        db = SessionLocal()
+
+        try:
+            profile = db.query(UserProfile).filter(
+                UserProfile.user_id == self.user_id
+            ).first()
+
+            if not profile:
+                profile = UserProfile(user_id = self.user_id)
+                db.add(profile)
+
+            for field, value in extracted_data.items():
+                if hasattr(profile, field):
+                    setattr(profile, field, value)
+
+            db.commit()
+            print(f"✓ Saved: {extracted_data}")
+
+        except Exception as e:
+            print(f"✗ DB error: {e}")
+            db.rollback()
+        
+        finally:
+            db.close()    
     
-    # 2. Communicate with the user and extract useful details
+    # 3. Communicate with the user and extract useful details
     def chat_and_extract(self, user_message, prompt):
         # 0. Chat logic (same as base_conversation) with info_collection_mode set
         history = self.conversation.get_conversation_history()
@@ -75,33 +102,6 @@ class InfoCollectionMode:
             Thread(target=self.store_information, args=(extracted_data,), daemon=True).start()
         
         return ai_response
-
-    # 3. Store the extracted details into the db
-    def store_information(self, extracted_data):
-        db = SessionLocal()
-
-        try:
-            profile = db.query(UserProfile).filter(
-                UserProfile.user_id == self.user_id
-            ).first()
-
-            if not profile:
-                profile = UserProfile(user_id = self.user_id)
-                db.add(profile)
-
-            for field, value in extracted_data.items():
-                if hasattr(profile, field):
-                    setattr(profile, field, value)
-
-            db.commit()
-            print(f"✓ Saved: {extracted_data}")
-
-        except Exception as e:
-            print(f"✗ DB error: {e}")
-            db.rollback()
-        
-        finally:
-            db.close()
 
     # 4. Main pipeline - production entry point
     def run_pipeline(self, user_message):
