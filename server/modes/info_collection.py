@@ -7,10 +7,12 @@ from threading import Thread
 from prompts.info_collection_prompt import INFO_COLLECTION_PROMPT
 
 class InfoCollectionMode:
-    def __init__(self, user_id):
+    def __init__(self, user_id, session_id):
         self.user_id = user_id
         self.conversation = Conversation(user_id)
-        
+        self.conversation.session_id = session_id
+        self.tool = self.extraction_tool()
+
         # Check if returning user
         self.is_returning = self.conversation.is_returning_user()
         
@@ -19,10 +21,7 @@ class InfoCollectionMode:
         if self.is_returning:
             self.last_session_summary = self.conversation.get_last_session_summary()
         
-        # Always create new session
-        self.session_id = self.conversation.start_session()
-        self.tool = self.extraction_tool()
-
+        
     # 1. user information fields schema designed using the user_profile table
     def extraction_tool(self):
         properties = {}
