@@ -15,7 +15,6 @@ class UserProfile(Base):
     __tablename__ = "user_profile"
 
     user_id = Column(String, primary_key=True, index=True)
-    session_id = Column(String, nullable=True, index=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
