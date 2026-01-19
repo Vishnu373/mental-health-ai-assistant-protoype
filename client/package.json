@@ -3,29 +3,23 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Mental Health AI Assistant - Client Application (Auth + Chat)",
+  "description": "Mental Health AI Assistant - Simple Chat Interface",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "install-deps": "npm install"
-  },
-  "devDependencies": {
-    "vite": "^7.1.7"
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@clerk/clerk-js": "^5.99.0",
-    "marked": "^4.0.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "marked": "^15.0.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.5.2",
+    "vite": "^7.1.7"
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
-  },
-  "keywords": [
-    "mental-health",
-    "ai-assistant",
-    "chat",
-    "clerk-auth",
-    "vite"
-  ]
+  }
 }
