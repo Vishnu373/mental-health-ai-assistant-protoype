@@ -1,7 +1,7 @@
 # Mental Health AI Assistant
 
 A personalized AI-powered mental health support system that provides tailored therapeutic guidance through an intelligent two-phase conversation approach.
-Try it out at: [MhelpAI](https://mental-health-ai-assistant-protoype.vercel.app)
+Try it out at: [MhelpAI](https://mhelpai.netlify.app/)
 
 ## How It Works
 
