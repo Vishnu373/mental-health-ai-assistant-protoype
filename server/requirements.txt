@@ -5,7 +5,7 @@ supabase
 requests
 python-dotenv
 sqlalchemy
-psycopg2
+psycopg2-binary
 uvicorn
 pydantic
 passlib
