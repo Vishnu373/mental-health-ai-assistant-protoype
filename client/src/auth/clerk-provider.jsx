@@ -1,0 +1,23 @@
+import React from 'react'
+import { ClerkProvider } from '@clerk/clerk-react'
+import { useNavigate } from 'react-router-dom'
+
+const ClerkProviderWithRoutes = ({ children }) => {
+    const navigate = useNavigate()
+    const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+    if (!clerkPubKey) {
+        throw new Error("Missing Publishable Key")
+    }
+
+    return (
+        <ClerkProvider
+            publishableKey={clerkPubKey}
+            navigate={(to) => navigate(to)}
+        >
+            {children}
+        </ClerkProvider>
+    )
+}
+
+export default ClerkProviderWithRoutes

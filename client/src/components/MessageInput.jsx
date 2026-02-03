@@ -28,30 +28,34 @@ function MessageInput({ onSendMessage, disabled }) {
         // Auto-resize textarea
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto'
-            textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 120) + 'px'
+            textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 200) + 'px'
         }
     }
 
     return (
-        <form className="message-input-container" onSubmit={handleSubmit}>
-            <textarea
-                ref={textareaRef}
-                className="message-input"
-                placeholder="Type your message here..."
-                value={message}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-                disabled={disabled}
-                rows={1}
-            />
-            <button
-                type="submit"
-                className="send-button"
-                disabled={disabled || !message.trim()}
-            >
-                {disabled ? 'Sending...' : 'Send'}
-            </button>
-        </form>
+        <div className="input-area-wrapper">
+            <form className="input-container" onSubmit={handleSubmit}>
+                <textarea
+                    ref={textareaRef}
+                    placeholder="Send a message"
+                    value={message}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    disabled={disabled}
+                    rows={1}
+                />
+                <button
+                    type="submit"
+                    className="send-btn"
+                    disabled={disabled || !message.trim()}
+                >
+                    <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
+        </div>
     )
 }
 

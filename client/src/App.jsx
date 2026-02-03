@@ -1,41 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import ChatContainer from './components/ChatContainer'
-import { generateUserId, generateSessionId } from './api/chat'
+import React from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { SignedIn, SignedOut } from '@clerk/clerk-react'
+import SignInPage from './pages/SignInPage'
+import SignUpPage from './pages/SignUpPage'
+import ChatPage from './pages/ChatPage'
 
 function App() {
-    const [userId, setUserId] = useState('')
-    const [sessionId, setSessionId] = useState('')
-
-    useEffect(() => {
-        // Generate or retrieve user ID from localStorage
-        let storedUserId = localStorage.getItem('mhelp_user_id')
-        if (!storedUserId) {
-            storedUserId = generateUserId()
-            localStorage.setItem('mhelp_user_id', storedUserId)
-        }
-        setUserId(storedUserId)
-
-        // Generate new session ID for this visit
-        const newSessionId = generateSessionId()
-        setSessionId(newSessionId)
-    }, [])
-
-    if (!userId || !sessionId) {
-        return (
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100vh',
-                fontFamily: 'system-ui, -apple-system, sans-serif',
-                color: '#6b7280'
-            }}>
-                Loading...
-            </div>
-        )
-    }
-
-    return <ChatContainer userId={userId} sessionId={sessionId} />
+    return (
+        <Routes>
+            <Route path="/sign-in/*" element={<SignInPage />} />
+            <Route path="/sign-up/*" element={<SignUpPage />} />
+            <Route
+                path="/"
+                element={
+                    <>
+                        <SignedIn>
+                            <ChatPage />
+                        </SignedIn>
+                        <SignedOut>
+                            <Navigate to="/sign-in" replace />
+                        </SignedOut>
+                    </>
+                }
+            />
+            {/* Catch all to redirect to home (which redirects to sign-in) */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+    )
 }
 
 export default App

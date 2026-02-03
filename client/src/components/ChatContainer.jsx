@@ -2,20 +2,23 @@ import React, { useState } from 'react'
 import MessageList from './MessageList'
 import MessageInput from './MessageInput'
 import { sendMessage } from '../api/chat'
+import { UserButton, useUser } from '@clerk/clerk-react'
 
 function ChatContainer({ userId, sessionId }) {
+    const { user } = useUser()
     const [messages, setMessages] = useState([
         {
             id: 1,
             sender: 'assistant',
-            content: 'Hello! I\'m MhelpAI, your mental health support assistant. Feel free to share what\'s on your mind, and I\'ll do my best to help.\n\n**Note:** I\'m an AI assistant and not a replacement for professional mental health care. If you\'re experiencing a crisis, please contact emergency services or a mental health hotline immediately.',
+            content: 'Hello! I\'m MhelpAI, your mental health support assistant. Feel free to share what\'s on your mind.',
             timestamp: new Date()
         }
     ])
     const [isLoading, setIsLoading] = useState(false)
+    // Mock collected context percentage
+    const [contextProgress, setContextProgress] = useState(10)
 
     const handleSendMessage = async (messageText) => {
-        // Add user message
         const userMessage = {
             id: Date.now(),
             sender: 'user',
@@ -28,7 +31,6 @@ function ChatContainer({ userId, sessionId }) {
         try {
             const response = await sendMessage(userId, sessionId, messageText)
 
-            // Add AI response
             const aiMessage = {
                 id: Date.now() + 1,
                 sender: 'assistant',
@@ -36,8 +38,9 @@ function ChatContainer({ userId, sessionId }) {
                 timestamp: new Date()
             }
             setMessages(prev => [...prev, aiMessage])
+            // Increment context progress mock
+            setContextProgress(prev => Math.min(prev + 5, 100))
         } catch (error) {
-            // Add error message
             const errorMessage = {
                 id: Date.now() + 1,
                 sender: 'error',
@@ -52,10 +55,19 @@ function ChatContainer({ userId, sessionId }) {
 
     return (
         <div className="chat-container">
-            <div className="chat-header">
-                <h1>MhelpAI</h1>
-                <p>Mental Health Assistant</p>
+            <div className="chat-status-bar">
+                {/* User Context Indicator */}
+                <div
+                    className="context-indicator"
+                    style={{ '--progress': `${contextProgress}%` }}
+                    title={`Context Collected: ${contextProgress}%`}
+                >
+                    <span className="context-tooltip">{contextProgress}% Context</span>
+                </div>
+                {/* Clerk User Button for profile management */}
+                <UserButton afterSignOutUrl="/sign-in" />
             </div>
+
             <MessageList messages={messages} isLoading={isLoading} />
             <MessageInput onSendMessage={handleSendMessage} disabled={isLoading} />
         </div>
