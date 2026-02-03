@@ -1,17 +1,11 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-import os
-from dotenv import load_dotenv
-from services.prompts import therapy_prompt
-from config import llm_model, s3, supabase, BUCKET_NAME, KB_KEY, embedding_model
+"""RAG pipeline for therapy mode."""
+from prompts.templates import therapy_prompt
+from app.config import llm_model, supabase, embedding_model
 from langchain_core.messages import SystemMessage, HumanMessage
 
-load_dotenv()
 
-# Retrieve relevant therapy content
-def retrieve(query, match_count=3):
+def retrieve(query: str, match_count: int = 3) -> str:
+    """Retrieve relevant therapy content from vector store."""
     results = supabase.rpc(
         'match_data', {
             'query_embedding': embedding_model.embed_query(query),
@@ -20,15 +14,12 @@ def retrieve(query, match_count=3):
         }
     ).execute()
 
-    results = results.data
-    all_matches = [result.get('content', '') for result in results if result.get('content')]
-    all_matches = "\n\n".join(all_matches)
-    
-    return all_matches
-    
+    all_matches = [r.get('content', '') for r in results.data if r.get('content')]
+    return "\n\n".join(all_matches)
 
-# Augment prompt creation + Generate LLM response
-def augment_and_generate(user_profile, retrieved_content, conversation_history="", user_message=""):
+
+def augment_and_generate(user_profile, retrieved_content: str, conversation_history: str, user_message: str) -> str:
+    """Augment prompt with context and generate response."""
     augmented_prompt = therapy_prompt.format(
         retrieved_content=retrieved_content,
         age=getattr(user_profile, 'age', 'Not specified'),
@@ -43,12 +34,6 @@ def augment_and_generate(user_profile, retrieved_content, conversation_history="
         mental_health_conditions=getattr(user_profile, 'mental_health_conditions', 'None specified'),
         conversation_history=conversation_history
     )
-    
-    messages = [
-        SystemMessage(content=augmented_prompt),
-        HumanMessage(content=user_message)
-    ]
-    
-    response = llm_model.invoke(messages)
-    
-    return response.content
+
+    messages = [SystemMessage(content=augmented_prompt), HumanMessage(content=user_message)]
+    return llm_model.invoke(messages).content

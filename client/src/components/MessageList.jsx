@@ -1,3 +1,4 @@
+/** Message list component - displays chat messages. */
 import React, { useEffect, useRef } from 'react'
 import { marked } from 'marked'
 import { useUser } from '@clerk/clerk-react'

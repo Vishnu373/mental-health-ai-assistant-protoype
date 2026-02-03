@@ -1,3 +1,4 @@
+/** Message input component - handles user text input. */
 import React, { useState, useRef } from 'react'
 
 function MessageInput({ onSendMessage, disabled }) {
@@ -9,7 +10,6 @@ function MessageInput({ onSendMessage, disabled }) {
         if (message.trim() && !disabled) {
             onSendMessage(message.trim())
             setMessage('')
-            // Reset textarea height
             if (textareaRef.current) {
                 textareaRef.current.style.height = 'auto'
             }
@@ -25,7 +25,6 @@ function MessageInput({ onSendMessage, disabled }) {
 
     const handleChange = (e) => {
         setMessage(e.target.value)
-        // Auto-resize textarea
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto'
             textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 200) + 'px'

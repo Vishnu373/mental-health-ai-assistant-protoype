@@ -23,7 +23,6 @@ function App() {
                     </>
                 }
             />
-            {/* Catch all to redirect to home (which redirects to sign-in) */}
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     )

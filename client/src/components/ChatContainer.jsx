@@ -1,3 +1,4 @@
+/** Chat container - main chat interface component. */
 import React, { useState } from 'react'
 import MessageList from './MessageList'
 import MessageInput from './MessageInput'
@@ -15,7 +16,6 @@ function ChatContainer({ userId, sessionId }) {
         }
     ])
     const [isLoading, setIsLoading] = useState(false)
-    // Mock collected context percentage
     const [contextProgress, setContextProgress] = useState(10)
 
     const handleSendMessage = async (messageText) => {
@@ -30,7 +30,6 @@ function ChatContainer({ userId, sessionId }) {
 
         try {
             const response = await sendMessage(userId, sessionId, messageText)
-
             const aiMessage = {
                 id: Date.now() + 1,
                 sender: 'assistant',
@@ -38,7 +37,6 @@ function ChatContainer({ userId, sessionId }) {
                 timestamp: new Date()
             }
             setMessages(prev => [...prev, aiMessage])
-            // Increment context progress mock
             setContextProgress(prev => Math.min(prev + 5, 100))
         } catch (error) {
             const errorMessage = {
@@ -56,7 +54,6 @@ function ChatContainer({ userId, sessionId }) {
     return (
         <div className="chat-container">
             <div className="chat-status-bar">
-                {/* User Context Indicator */}
                 <div
                     className="context-indicator"
                     style={{ '--progress': `${contextProgress}%` }}
@@ -64,7 +61,6 @@ function ChatContainer({ userId, sessionId }) {
                 >
                     <span className="context-tooltip">{contextProgress}% Context</span>
                 </div>
-                {/* Clerk User Button for profile management */}
                 <UserButton afterSignOutUrl="/sign-in" />
             </div>
 
