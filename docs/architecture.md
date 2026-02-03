@@ -46,8 +46,8 @@ Once sufficient personal information is collected, the system automatically tran
                           └───────┬────────┘
                                   │
               ┌───────────────────┴───────────────────┐
-              │ Required fields filled?              │
-              ▼                                      ▼
+              │ Required fields filled?               │
+              ▼ NO                                YES ▼
 ┌─────────────────────────┐            ┌─────────────────────────┐
 │   INFO COLLECTION MODE  │            │      THERAPY MODE       │
 ├─────────────────────────┤            ├─────────────────────────┤
@@ -60,7 +60,11 @@ Once sufficient personal information is collected, the system automatically tran
 │ PostgreSQL Update       │            │ RAG Pipeline + LLM      │
 │         ↓               │            │         ↓               │
 │ Friendly AI Response    │            │ Therapeutic Response    │
-└─────────────────────────┘            └─────────────────────────┘
+└───────────┬─────────────┘            └─────────────────────────┘
+            │                                          ^
+            │ Once all required fields filled          |
+            └──────────────────────────────────────────┘
+                         ↑ Auto-switches to Therapy Mode
 ```
 
 ---

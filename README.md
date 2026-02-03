@@ -5,7 +5,7 @@ A personalized AI-powered mental health support system that provides tailored th
 ## Documentation
 
 - **[Architecture](docs/architecture.md)** - How the system works, technology stack, project structure
-- **[Setup Guide](docs/setup.md)** - Local development setup, environment variables, API keys
+- **[Setup Guide](docs/setup.md)** - Local development setup
 
 ## Key Features
 
